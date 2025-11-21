@@ -3,8 +3,9 @@
 #Variables
 
 mostrar_info=false
-password=""
+contrasena=""
 archivo=""
+usuarios_creados=0
 
 #Validaciones
 
@@ -19,7 +20,7 @@ while [[ $# -gt 0 ]]; do
                 echo "ERROR: falta contraseña para -c" >&2
                 exit 1
             fi
-            password="$2"
+            contrasena="$2"
             shift 2
             ;;
         -*)
@@ -56,3 +57,61 @@ fi
 
 
 
+while IFS=":" read -r usuario comentario home creahome shell; do
+
+    if [ -z "$usuario" ]; then
+        echo "Error: línea inválida (usuario vacío)" >&2
+        exit 7
+    fi
+
+    # Valores por defecto si campos están vacíos
+    comentario="${comentario:-"-"}"
+    home="${home:-/home/$usuario}"
+    creahome="${creahome:-NO}"
+    shell="${shell:-/bin/bash}"
+
+    comando=(useradd)
+
+    if [ "$comentario" != "-" ]; then
+    	comando+=(-c "$comentario")
+    fi
+
+    comando+=(-d "$home")
+
+    # Crear home si corresponde
+    if [ "$creahome" != "NO" ]; then
+        comando+=(-m)
+    fi
+
+    # Shell
+    comando+=(-s "$shell")
+
+    # Usuario
+    comando+=("$usuario")
+
+    if "${comando[@]}"; then
+	usuarios_creados=$((usuarios_creados+1))
+        # Asignar contraseña si se pasó -c
+        if [ -n "$contrasena" ]; then
+            echo "$usuario:$contrasena" | chpasswd
+        fi
+
+        if [[ "$mostrar_info" == true ]]; then
+            echo "Usuario $usuario creado con éxito con datos indicados:"
+            echo "Comentario: $comentario"
+            echo "Dir home: $home"
+            echo "Asegurado existencia de directorio home: $creahome"
+            echo "Shell por defecto: $shell"
+            echo
+        fi
+    else
+        if [[ "$mostrar_info" == true ]]; then
+            echo "ATENCION: el usuario $usuario no pudo ser creado"
+        fi
+    fi
+
+done < "$archivo"
+
+ if [[ "$mostrar_info" == true ]]; then
+            echo "Se han creado $usuarios_creados usuarios con éxito."
+ fi
