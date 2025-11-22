@@ -38,11 +38,12 @@ ec2 = boto3.client("ec2")
 rds = boto3.client("rds")
 ssm = boto3.client("ssm")
 
-# Rutas relativas al repositorio
+#Rutas relativas al repositorio
+#El objetivo de esto es que funcione en cualquier equipo que clone el repo, independientemente de la ruta absoluta de los archivos de la app
 BASE_DIR = Path(__file__).resolve().parent
 APP_DIR = BASE_DIR.parent / "app"
 
-
+#Obtener el id de la VPC default
 vpc_id = ec2.describe_vpcs(Filters=[{"Name": "isDefault", "Values": ["true"]}])["Vpcs"][0]["VpcId"]
 
 instance_profile_webserver = "LabInstanceProfile"
