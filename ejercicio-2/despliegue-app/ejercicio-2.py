@@ -21,13 +21,14 @@ vpc_id = ec2.describe_vpcs(Filters=[{"Name": "isDefault", "Values": ["true"]}])[
 
 instance_profile_webserver = "LabInstanceProfile"
 
+#Crear SG para la instancia de webserver
 sg_webserver = ec2.create_security_group(
     GroupName="SG-webserver",
     Description="SG para webserver",
     VpcId=vpc_id
 )["GroupId"]
 
-
+#Permitir los puertos http y https
 ec2.authorize_security_group_ingress(
     GroupId=sg_webserver,
     IpPermissions=[
