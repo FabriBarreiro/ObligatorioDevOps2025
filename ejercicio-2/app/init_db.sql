@@ -1,14 +1,11 @@
 -- Eliminar base de datos si existe
-DROP DATABASE IF EXISTS demo_db;
+DROP DATABASE IF EXISTS dbwebserver;
 
--- Crear base de datos y usuario
-CREATE DATABASE IF NOT EXISTS demo_db;
-CREATE USER IF NOT EXISTS 'demo_user'@'%' IDENTIFIED BY 'demo_pass';
-GRANT ALL PRIVILEGES ON demo_db.* TO 'demo_user'@'%';
-FLUSH PRIVILEGES;
+-- Crear base de datos
+CREATE DATABASE IF NOT EXISTS dbwebserver;
 
--- Crear tabla y datos de ejemplo
-USE demo_db;
+-- Seleccionar base
+USE dbwebserver;
 CREATE TABLE IF NOT EXISTS usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100),
