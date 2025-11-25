@@ -208,7 +208,7 @@ resp_cmd = ssm.send_command(
             "sudo chown apache:apache /var/www/init_db.sql",
             "sudo chmod 600 /var/www/init_db.sql",
             f"mysql -h {db_endpoint} -u {db_username} -p{db_password} dbwebserver < /var/www/init_db.sql",
-            f"printf 'DB_HOST={db_endpoint}\nDB_NAME=dbwebserver\nDB_USER={db_username}\nDB_PASS={db_password}\n\nAPP_USER=admin\nAPP_PASS=admin123\n' | sudo tee /var/www/.env >/dev/null",
+            f"printf 'DB_HOST={db_endpoint}\nDB_NAME=db_demo\nDB_USER=demo_user\nDB_PASS=demo_pass\n\nAPP_USER=admin\nAPP_PASS=admin123\n' | sudo tee /var/www/.env >/dev/null",
             "sudo chown apache:apache /var/www/.env",
             "sudo chmod 600 /var/www/.env",
             "sudo systemctl restart httpd php-fpm",
