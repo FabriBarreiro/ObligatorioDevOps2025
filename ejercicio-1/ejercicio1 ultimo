@@ -1,3 +1,4 @@
+
 #!/bin/bash
 
 #Variables
@@ -63,13 +64,29 @@ if [[ ! -r "$archivo" ]]; then
 fi
 
 
+# Valido que el archivo este correctamente creado
 
-while IFS=":" read -r usuario comentario home creahome shell; do
+while IFS= read -r linea; do
 
-        if [ -z "$usuario" ]; then
-                echo "Error: línea inválida (usuario vacío)" >&2
-                exit 7
-        fi
+IFS=':' read -ra campos <<< "$linea"
+
+if [[ ${#campos[@]} -ne 5 ]]; then
+    echo "ERROR: línea inválida: $linea" >&2
+    echo "la cantidad de campos es distinta de 5" >&2
+    exit 7
+fi
+
+if [[ -z "${campos[0]}" ]]; then
+                echo "Error: línea inválida, usuario vacío" >&2
+                exit 8
+fi
+
+done < "$archivo"
+
+
+# Si la estructura del archivo es correcta, creo los usuarios
+
+while IFS=':' read -r usuario comentario home creahome shell; do
 
     # Valores por defecto si campos están vacíos
     comentario="${comentario:-"-"}"
@@ -87,13 +104,7 @@ while IFS=":" read -r usuario comentario home creahome shell; do
 
     # Crear home si corresponde
     if [ "$creahome" != "NO" ]; then
-        #if [[ ! -e "$home" ]]; then
             comando+=(-m)
-        #else
-        #    echo "El directorio "$home" ya existe"
-        #    exit 11
-        #fi
-        # Ver si corresponde terminar el script con error si es una validacion que ya cumple userad
     fi
 
     # Shell
