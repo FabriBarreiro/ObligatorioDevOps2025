@@ -78,6 +78,28 @@ ec2.authorize_security_group_ingress(
     ],
 )
 
+#Crear SG para la base de datos RDS (solo acepta tráfico desde el SG del webserver)
+sg_rds = ec2.create_security_group(
+    GroupName="SG-bd",
+    Description="SG para base de datos MySQL",
+    VpcId=vpc_id
+)["GroupId"]
+
+#Permitir solo MySQL (3306) desde el SG del webserver
+ec2.authorize_security_group_ingress(
+    GroupId=sg_rds,
+    IpPermissions=[
+        {
+            "IpProtocol": "tcp",
+            "FromPort": 3306,
+            "ToPort": 3306,
+            "UserIdGroupPairs": [
+                {"GroupId": sg_webserver},
+            ],
+        },
+    ],
+)
+
 #Crear webserver
 ami_id = obtenerAMI()
 
