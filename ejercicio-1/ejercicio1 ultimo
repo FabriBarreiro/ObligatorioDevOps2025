@@ -6,9 +6,15 @@ mostrar_info=false
 contrasena=""
 archivo=""
 usuarios_creados=0
-errores=0
 
 #Validaciones
+
+if [[ $EUID -ne 0 ]]; then
+    echo "ERROR: Debes ejecutar este script como root" >&2
+    exit 10
+fi
+
+
 
 while [[ $# -gt 0 ]]; do
         case "$1" in
@@ -81,13 +87,19 @@ while IFS=":" read -r usuario comentario home creahome shell; do
 
     # Crear home si corresponde
     if [ "$creahome" != "NO" ]; then
+        #if [[ ! -e "$home" ]]; then
             comando+=(-m)
+        #else
+        #    echo "El directorio "$home" ya existe"
+        #    exit 11
+        #fi
+        # Ver si corresponde terminar el script con error si es una validacion que ya cumple userad
     fi
 
     # Shell
     if ! grep -qxF "$shell" /etc/shells; then
             echo "ERROR: la shell $shell no está en /etc/shells" >&2
-            errores=$((errores+1))
+            exit 8
     else
             comando+=(-s "$shell")
     fi
@@ -96,7 +108,7 @@ while IFS=":" read -r usuario comentario home creahome shell; do
     # Usuario
     comando+=("$usuario")
 
-    if (( errores == 0 )) && "${comando[@]}"; then
+    if "${comando[@]}"; then
             usuarios_creados=$((usuarios_creados+1))
             # Asignar contraseña si se pasó -c
             if [ -n "$contrasena" ]; then
