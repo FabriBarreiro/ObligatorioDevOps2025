@@ -1,6 +1,5 @@
 import boto3
 import base64
-import json
 import secrets
 import string
 from pathlib import Path
@@ -46,7 +45,6 @@ def obtenerAMI():
 ec2 = boto3.client("ec2")
 rds = boto3.client("rds")
 ssm = boto3.client("ssm")
-secretsmanager = boto3.client("secretsmanager")
 
 #Rutas relativas al repositorio
 #El objetivo de esto es que el script funcione en cualquier equipo que clone el repo, independientemente de la ruta absoluta de los archivos de la app
@@ -113,23 +111,6 @@ ec2.authorize_security_group_ingress(
 # Generar credenciales seguras para la BD (sin hardcodear en el código)
 db_username = "admin"
 db_password = generar_password()
-
-# Crear o reutilizar el secret dinámicamente en Secrets Manager
-try:
-    secret_db = secretsmanager.create_secret(
-        Name="db_webserver_credentials",
-        SecretString=json.dumps({
-            "username": db_username,
-            "password": db_password,
-        }),
-    )
-    db_secret_arn = secret_db["ARN"]
-except secretsmanager.exceptions.ResourceExistsException:
-    # Si el secreto ya existe, lo reutilizamos
-    secret_db = secretsmanager.get_secret_value(
-        SecretId="db_webserver_credentials"
-    )
-    db_secret_arn = secret_db["ARN"]
 
 # Crear instancia RDS MySQL para usar de BD del webserver
 rds.create_db_instance(
@@ -238,7 +219,6 @@ print(f"- Security Group BD creado: {sg_rds} (Nombre: SG-bd)")
 print(f"- Instancia RDS creada: dbwebserver (DBName: dbwebserver)")
 print(f"- Instancia EC2 creada: {ec2_webserver}")
 print(f"- IP pública de la instancia: {ip_publica_webserver}")
-print(f"- ARN del secreto de credenciales en Secrets Manager: {db_secret_arn}")
 print("")
 print("Acceso a la app:")
 print(f"  -> http://{ip_publica_webserver}/")
