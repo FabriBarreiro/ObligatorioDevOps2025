@@ -10,6 +10,12 @@ app/: Aqui encontraras todos los archivos necesarios para el funcionamiento de l
 despliegue-app: Aqui se encuentra el script de aprovisionamiento.
 
 ---
+## 🖼️ Diagrama de la Arquitectura
+A continuación se muestra el diagrama visual de la infraestructura desplegada automáticamente por el script:
+
+![Diagrama Arquitectura](ejercicio-2/imagenes/obligatorio-ej2.drawio.png)
+
+---
 ## 📦 Requerimientos
 Para ejecutar el script correctamente necesitas:
 - Python 3.10 o superior
