@@ -10,6 +10,14 @@ app/: Aqui encontraras todos los archivos necesarios para el funcionamiento de l
 despliegue-app: Aqui se encuentra el script de aprovisionamiento.
 
 ---
+## 📦 Requerimientos
+Para ejecutar el script correctamente necesitas:
+- Python 3.10 o superior
+- AWS CLI v2 instalado y configurado
+- Credenciales temporales o permanentes exportadas en el entorno
+- Paquete de Python: boto3 (incluido en requirements.txt)
+
+---
 ## ⚙️ ¿Qué hace el script `ejercicio-2.py`?
 El script automatiza **todo** el despliegue de la infraestructura necesaria para la aplicación web.
 
