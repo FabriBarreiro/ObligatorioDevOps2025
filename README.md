@@ -148,4 +148,9 @@ Este ejercicio implementa un despliegue *end-to-end* profesional utilizando:
   Cualquier recurso aprovisionado (EC2, RDS, SG, etc.) debe ser eliminado manualmente desde la consola o con AWS CLI.
 
 - El script **no crea una VPC dedicada**.
-  Utiliza la **VPC por defecto (default VPC)** del usuario en la región configurada.
+
+---
+## 🖥️ Vista de la aplicación web desplegada
+A continuación se muestra una captura real del sistema web funcionando sobre la infraestructura aprovisionada:
+
+![Aplicación Web](ejercicio-2/imagenes/aplicacionweb.png)
