@@ -2,6 +2,7 @@ import boto3
 import base64
 import secrets
 import string
+import time
 from pathlib import Path
 
 #Generar una contraseña segura aleatoria para la BD
@@ -233,10 +234,9 @@ resp_cmd = ssm.send_command(
     },
 )
 
-# Esperar a que el comando termine correctamente
+# Esperar a que el send command termine correctamente
 command_id = resp_cmd["Command"]["CommandId"]
 
-import time
 while True:
     inv = ssm.get_command_invocation(CommandId=command_id, InstanceId=ec2_webserver)
     if inv["Status"] in ["Success", "Failed", "Cancelled", "TimedOut"]:
