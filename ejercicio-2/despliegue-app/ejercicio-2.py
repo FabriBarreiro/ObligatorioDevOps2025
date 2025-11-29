@@ -74,7 +74,7 @@ sg_webserver = ec2.create_security_group(
     VpcId=vpc_id
 )["GroupId"]
 
-# Tag the Web SG
+# Tag de SG_WEBSERVER
 ec2.create_tags(
     Resources=[sg_webserver],
     Tags=[{"Key": "Proyecto", "Value": "ObligatorioDevOps"}]
@@ -110,7 +110,7 @@ sg_rds = ec2.create_security_group(
     VpcId=vpc_id
 )["GroupId"]
 
-# Tag the RDS SG
+# Tageo de SG_RDS
 ec2.create_tags(
     Resources=[sg_rds],
     Tags=[{"Key": "Proyecto", "Value": "ObligatorioDevOps"}]
@@ -159,7 +159,7 @@ waiter_rds.wait(DBInstanceIdentifier=db_identifier)
 # Obtener endpoint de la base de datos
 info_rds = rds.describe_db_instances(DBInstanceIdentifier=db_identifier)
 
-# Tag the RDS instance
+# Tageo de RDS
 rds.add_tags_to_resource(
     ResourceName=f"arn:aws:rds:us-east-1:{info_rds['DBInstances'][0]['DBInstanceArn'].split(':')[4]}:db:{db_identifier}",
     Tags=[{"Key": "Proyecto", "Value": "ObligatorioDevOps"}]
@@ -196,7 +196,7 @@ ec2_webserver = ec2.run_instances(
     UserData=comandos_iniciales,
  )["Instances"][0]["InstanceId"]
 
-# Tag the EC2 instance
+# Tageo de EC2
 ec2.create_tags(
     Resources=[ec2_webserver],
     Tags=[{"Key": "Proyecto", "Value": "ObligatorioDevOps"}]
