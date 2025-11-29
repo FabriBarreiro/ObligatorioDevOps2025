@@ -9,6 +9,11 @@ def generar_password(longitud: int = 20) -> str:
     caracteres = string.ascii_letters + string.digits + "!#$%^&*()-_=+"
     return "".join(secrets.choice(caracteres) for _ in range(longitud))
 
+#Generar un sufijo corto para nombres únicos de recursos
+def generar_sufijo(longitud: int = 6) -> str:
+    caracteres = string.ascii_lowercase + string.digits
+    return "".join(secrets.choice(caracteres) for _ in range(longitud))
+
 #Subida de un archivo local a la instancia EC2 usando SSM
 def subir_archivos_webserver(instance_id, ruta_local, ruta_remota):
     # Leer archivo local en binario
@@ -46,6 +51,12 @@ ec2 = boto3.client("ec2")
 rds = boto3.client("rds")
 ssm = boto3.client("ssm")
 
+sufijo = generar_sufijo()
+
+sg_web_name = f"SG-webserver-{sufijo}"
+sg_rds_name = f"SG-bd-{sufijo}"
+db_identifier = f"dbwebserver-{sufijo}"
+
 #Rutas relativas al repositorio
 #El objetivo de esto es que el script funcione en cualquier equipo que clone el repo, independientemente de la ruta absoluta de los archivos de la app
 BASE_DIR = Path(__file__).resolve().parent
@@ -58,7 +69,7 @@ instance_profile_webserver = "LabInstanceProfile"
 
 #Crear SG para la instancia de webserver
 sg_webserver = ec2.create_security_group(
-    GroupName="SG-webserver",
+    GroupName=sg_web_name,
     Description="SG para webserver",
     VpcId=vpc_id
 )["GroupId"]
@@ -88,7 +99,7 @@ ec2.authorize_security_group_ingress(
 
 #Crear SG para la base de datos RDS (solo acepta tráfico desde el SG del webserver)
 sg_rds = ec2.create_security_group(
-    GroupName="SG-bd",
+    GroupName=sg_rds_name,
     Description="SG para base de datos MySQL",
     VpcId=vpc_id
 )["GroupId"]
@@ -115,7 +126,7 @@ db_password = generar_password()
 # Crear instancia RDS MySQL para usar de BD del webserver
 rds.create_db_instance(
     DBName="dbwebserver",
-    DBInstanceIdentifier="dbwebserver",
+    DBInstanceIdentifier=db_identifier,
     AllocatedStorage=20,
     DBInstanceClass="db.t3.micro",
     Engine="mysql",
@@ -131,10 +142,10 @@ rds.create_db_instance(
 
 # Esperar a que la instancia RDS esté disponible
 waiter_rds = rds.get_waiter("db_instance_available")
-waiter_rds.wait(DBInstanceIdentifier="dbwebserver")
+waiter_rds.wait(DBInstanceIdentifier=db_identifier)
 
 # Obtener endpoint de la base de datos
-info_rds = rds.describe_db_instances(DBInstanceIdentifier="dbwebserver")
+info_rds = rds.describe_db_instances(DBInstanceIdentifier=db_identifier)
 db_endpoint = info_rds["DBInstances"][0]["Endpoint"]["Address"]
 db_port = info_rds["DBInstances"][0]["Endpoint"]["Port"]
 
@@ -214,13 +225,11 @@ ip_publica_webserver = info_webserver["Reservations"][0]["Instances"][0]["Public
 print("El script se ejecutó correctamente.")
 print("")
 print("===== RESUMEN DE RECURSOS CREADOS =====")
-print(f"- Security Group web creado: {sg_webserver} (Nombre: SG-webserver)")
-print(f"- Security Group BD creado: {sg_rds} (Nombre: SG-bd)")
-print(f"- Instancia RDS creada: dbwebserver (DBName: dbwebserver)")
+print(f"- Security Group web creado: {sg_webserver} (Nombre: {sg_web_name})")
+print(f"- Security Group BD creado: {sg_rds} (Nombre: {sg_rds_name})")
+print(f"- Instancia RDS creada: {db_identifier} (DBName: dbwebserver)")
 print(f"- Instancia EC2 creada: {ec2_webserver}")
-print(f"- IP pública de la instancia: {ip_publica_webserver}")
 print("")
 print("Acceso a la app:")
-print(f"  -> http://{ip_publica_webserver}/")
 print(f"  -> http://{ip_publica_webserver}/login.php")
 print("=======================================")
