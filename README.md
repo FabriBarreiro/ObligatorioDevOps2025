@@ -2,7 +2,7 @@
 
 # Ejercicio 2
 
-Este ejercicio consiste en un script de aprovisionamiento de infraestructura en AWS, hecho con python usando el SDK de AWS "Boto3". El objetivo es desplegar automáticamente una arquitectura completa utilizando **Python**, **Boto3**, **Amazon EC2**, **Amazon RDS**, **AWS Systems Manager** y **Security Groups**.
+Este ejercicio consiste en un script de aprovisionamiento de infraestructura en AWS, hecho con python usando el SDK de AWS "Boto3". El objetivo es desplegar automáticamente una arquitectura completa utilizando **Python**, **Boto3**, **Amazon EC2**, **Amazon RDS**, **AWS Systems Session Manager** y **Security Groups**.
 
 En el repositorio encontraras que el ejercicio se divide en 2 secciones.
 
