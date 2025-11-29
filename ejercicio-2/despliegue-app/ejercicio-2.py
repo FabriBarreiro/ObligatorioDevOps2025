@@ -48,10 +48,12 @@ def obtenerAMI():
     resp.sort(key=lambda x: x["CreationDate"], reverse=True)
     return resp[0]["ImageId"]
 
+#Defino los clientes de cada servicio utilizado
 ec2 = boto3.client("ec2")
 rds = boto3.client("rds")
 ssm = boto3.client("ssm")
 
+#Genero el sufijo para los recursos
 sufijo = generar_sufijo()
 
 sg_web_name = f"SG-webserver-{sufijo}"
