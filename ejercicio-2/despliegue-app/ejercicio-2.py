@@ -74,6 +74,12 @@ sg_webserver = ec2.create_security_group(
     VpcId=vpc_id
 )["GroupId"]
 
+# Tag the Web SG
+ec2.create_tags(
+    Resources=[sg_webserver],
+    Tags=[{"Key": "Proyecto", "Value": "ObligatorioDevOps"}]
+)
+
 #Permitir los puertos http y https
 ec2.authorize_security_group_ingress(
     GroupId=sg_webserver,
@@ -103,6 +109,12 @@ sg_rds = ec2.create_security_group(
     Description="SG para base de datos MySQL",
     VpcId=vpc_id
 )["GroupId"]
+
+# Tag the RDS SG
+ec2.create_tags(
+    Resources=[sg_rds],
+    Tags=[{"Key": "Proyecto", "Value": "ObligatorioDevOps"}]
+)
 
 #Permitir solo MySQL (3306) desde el SG del webserver
 ec2.authorize_security_group_ingress(
@@ -146,6 +158,13 @@ waiter_rds.wait(DBInstanceIdentifier=db_identifier)
 
 # Obtener endpoint de la base de datos
 info_rds = rds.describe_db_instances(DBInstanceIdentifier=db_identifier)
+
+# Tag the RDS instance
+rds.add_tags_to_resource(
+    ResourceName=f"arn:aws:rds:us-east-1:{info_rds['DBInstances'][0]['DBInstanceArn'].split(':')[4]}:db:{db_identifier}",
+    Tags=[{"Key": "Proyecto", "Value": "ObligatorioDevOps"}]
+)
+
 db_endpoint = info_rds["DBInstances"][0]["Endpoint"]["Address"]
 db_port = info_rds["DBInstances"][0]["Endpoint"]["Port"]
 
@@ -177,6 +196,12 @@ ec2_webserver = ec2.run_instances(
     UserData=comandos_iniciales,
  )["Instances"][0]["InstanceId"]
 
+# Tag the EC2 instance
+ec2.create_tags(
+    Resources=[ec2_webserver],
+    Tags=[{"Key": "Proyecto", "Value": "ObligatorioDevOps"}]
+)
+
 
 # Esperar a que la instancia esté en estado "running" y pase los status checks
 waiter = ec2.get_waiter('instance_status_ok')
@@ -200,7 +225,7 @@ resp_cmd = ssm.send_command(
             "sudo chown apache:apache /var/www/init_db.sql",
             "sudo chmod 600 /var/www/init_db.sql",
             f"mysql -h {db_endpoint} -u {db_username} -p{db_password} dbwebserver < /var/www/init_db.sql",
-            f"printf 'DB_HOST={db_endpoint}\nDB_NAME=db_demo\nDB_USER=demo_user\nDB_PASS=demo_pass\n\nAPP_USER=admin\nAPP_PASS=admin123\n' | sudo tee /var/www/.env >/dev/null",
+            f"printf 'DB_HOST={db_endpoint}\nDB_NAME=demo_db\nDB_USER=demo_user\nDB_PASS=demo_pass\n\nAPP_USER=admin\nAPP_PASS=admin123\n' | sudo tee /var/www/.env >/dev/null",
             "sudo chown apache:apache /var/www/.env",
             "sudo chmod 600 /var/www/.env",
             "sudo systemctl restart httpd php-fpm",
