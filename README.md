@@ -134,3 +134,12 @@ Este ejercicio implementa un despliegue *end-to-end* profesional utilizando:
 - Prácticas de seguridad
 - Automatización completa
 - Aplicación web funcional
+
+---
+## ⚠️ Consideraciones importantes
+
+- El script **no elimina** la infraestructura creada.
+  Cualquier recurso aprovisionado (EC2, RDS, SG, etc.) debe ser eliminado manualmente desde la consola o con AWS CLI.
+
+- El script **no crea una VPC dedicada**.
+  Utiliza la **VPC por defecto (default VPC)** del usuario en la región configurada.
