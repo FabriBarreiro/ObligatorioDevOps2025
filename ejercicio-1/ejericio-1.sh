@@ -65,75 +65,73 @@ fi
 
 #Proceso todas las lineas
 while IFS=':' read -r usuario comentario home creahome shell; do
-    
+
     campos=("$usuario" "$comentario" "$home" "$creahome" "$shell")
     linea="$usuario:$comentario:$home:$creahome:$shell"
-    
+
     errores=false
-    
+
     #Valido que la cantidad de campos sea correcta
-    
+
     if [[ ${#campos[@]} -ne 5 ]]; then
         echo "ERROR: línea inválida: $linea" >&2
         echo "la cantidad de campos es distinta de 5" >&2
         errores=true
     fi
-    
+
     if [[ -z "${campos[0]}" ]]; then
         echo "Error: línea inválida, usuario vacío" >&2
         errores=true
     else
         usuario="${campos[0]}"
     fi
-    
-    
+
+
     # Valores por defecto si campos están vacíos
     comentario="${campos[1]}"
     if [[ -z "$comentario" ]]; then
-        comentario="-"
+        comentario=""
     fi
-    
+
     home="${campos[2]}"
     if [[ -z "$home" ]]; then
         home="/home/$usuario"
     fi
-    
+
     creahome="${campos[3]}"
     if [[ -z "$creahome" ]]; then
         creahome="NO"
     fi
-    
+
     shell="${campos[4]}"
     if [[ -z "$shell" ]]; then
-        shell="/bin/bash"
+        shell="/bin/sh"
     fi
-    
+
     #Conierte a mayusculas el texto para siempre compararlo en mayusculas
     creahome="${creahome^^}"
-    
-    
+
+
     comando=(useradd)
-    
+
     if [ "$comentario" != "-" ]; then
         comando+=(-c "$comentario")
     fi
-    
-    comando+=(-d "$home")
-    
+
     # Crear home si corresponde
     if [[ "$creahome" != "SI" && "$creahome" != "NO" ]]; then
         echo "ERROR: campo CREAR_HOME inválido: $creahome" >&2
         errores=true
     fi
-    
+
     # Validar home existente si corresponde
     if [[ "$creahome" == "SI" && -e "$home" ]]; then
         echo "ERROR: el home $home ya existe, no se puede crear" >&2
         errores=true
     fi
-    
+
     if [ "$creahome" == "SI" ]; then
-        comando+=(-m)
+        comando+=(-m -d $home)
     fi
     # Shell
     if ! grep -qxF "$shell" /etc/shells; then
@@ -142,7 +140,7 @@ while IFS=':' read -r usuario comentario home creahome shell; do
     else
         comando+=(-s "$shell")
     fi
-    
+
     # Usuario
     if id "$usuario" &>/dev/null; then
         echo "ERROR: El usuario $usuario ya existe" >&2
@@ -150,8 +148,7 @@ while IFS=':' read -r usuario comentario home creahome shell; do
     else
         comando+=("$usuario")
     fi
-    
-    echo "$errores"
+
     if [[ "$errores" == false  ]]; then
         if "${comando[@]}"; then
             usuarios_creados=$((usuarios_creados+1))
@@ -159,7 +156,7 @@ while IFS=':' read -r usuario comentario home creahome shell; do
             if [ -n "$contrasena" ]; then
                 echo "$usuario:$contrasena" | chpasswd
             fi
-            
+
             if [[ "$mostrar_info" == true ]]; then
                 echo "Usuario $usuario creado con éxito con datos indicados:"
                 echo "Comentario: $comentario"
@@ -176,7 +173,7 @@ while IFS=':' read -r usuario comentario home creahome shell; do
     else
         echo "ATENCION: el usuario $usuario no pudo ser creado"
     fi
-    
+
 done < "$archivo"
 
 if [[ "$mostrar_info" == true ]]; then
