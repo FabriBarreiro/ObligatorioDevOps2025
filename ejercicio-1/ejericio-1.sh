@@ -54,7 +54,7 @@ fi
 
 
 if [[ ! -f "$archivo" ]]; then
-    echo "ERROR: $archivo no es un archivo regular" >&2
+            echo "ERROR: $archivo no es un archivo regular" >&2
     exit 5
 fi
 
@@ -64,59 +64,57 @@ if [[ ! -r "$archivo" ]]; then
 fi
 
 #Proceso todas las lineas
-while IFS=':' read -r usuario comentario home creahome shell; do
+while IFS= read -r linea; do
 
-    campos=("$usuario" "$comentario" "$home" "$creahome" "$shell")
-    linea="$usuario:$comentario:$home:$creahome:$shell"
+errores=false
 
-    errores=false
+    # Validar cantidad EXACTA de ":" → deben ser 4
+    cant_dos_puntos=$(grep -o ":" <<< "$linea" | wc -l)
 
-    #Valido que la cantidad de campos sea correcta
-
-    if [[ ${#campos[@]} -ne 5 ]]; then
-        echo "ERROR: línea inválida: $linea" >&2
-        echo "la cantidad de campos es distinta de 5" >&2
+    if [[ "$cant_dos_puntos" -ne 4 ]]; then
+        echo "ERROR: línea inválida cantidad de campos incorrecta: $linea" >&2
         errores=true
+        echo "ATENCION: el usuario $(cut -d':' -f1 <<< "$linea") no pudo ser creado"
+        echo ""
+        continue   #sigue con la siguiente linea
     fi
 
-    if [[ -z "${campos[0]}" ]]; then
+    #leer los 5 campos
+    IFS=':' read -r usuario comentario home creahome shell <<< "$linea"
+
+    if [[ -z "$usuario" ]]; then
         echo "Error: línea inválida, usuario vacío" >&2
         errores=true
-    else
-        usuario="${campos[0]}"
     fi
 
 
     # Valores por defecto si campos están vacíos
-    comentario="${campos[1]}"
     if [[ -z "$comentario" ]]; then
         comentario=""
     fi
 
-    home="${campos[2]}"
     if [[ -z "$home" ]]; then
         home="/home/$usuario"
     fi
 
-    creahome="${campos[3]}"
     if [[ -z "$creahome" ]]; then
-        creahome="NO"
+        creahome="SI"
     fi
 
-    shell="${campos[4]}"
     if [[ -z "$shell" ]]; then
-        shell="/bin/sh"
+        shell="/bin/bash"
     fi
 
     #Conierte a mayusculas el texto para siempre compararlo en mayusculas
     creahome="${creahome^^}"
 
-
     comando=(useradd)
 
-    if [ "$comentario" != "-" ]; then
+    if [ "$comentario" != "" ]; then
         comando+=(-c "$comentario")
     fi
+
+    comando+=(-d "$home")
 
     # Crear home si corresponde
     if [[ "$creahome" != "SI" && "$creahome" != "NO" ]]; then
@@ -124,22 +122,33 @@ while IFS=':' read -r usuario comentario home creahome shell; do
         errores=true
     fi
 
-    # Validar home existente si corresponde
+    if [ "$creahome" == "SI" ]; then
+        comando+=(-m)
+
+    fi
+
+   if [ "$creahome" == "NO" ]; then
+        comando+=(-M)
+   fi
+
+ # Validar home existente si corresponde
+
+   if [[ "$creahome" == "NO" && ! -d "$home" ]]; then
+     echo "ERROR: el home $home no existe y creahome=NO" >&2
+     errores=true
+   fi
+
     if [[ "$creahome" == "SI" && -e "$home" ]]; then
         echo "ERROR: el home $home ya existe, no se puede crear" >&2
         errores=true
     fi
 
-    if [ "$creahome" == "SI" ]; then
-        comando+=(-m -d $home)
-    fi
     # Shell
-    if ! grep -qxF "$shell" /etc/shells; then
-        echo "ERROR: la shell $shell no está en /etc/shells" >&2
-        errores=true
-    else
-        comando+=(-s "$shell")
-    fi
+   if ! grep -qxF "$shell" /etc/shells; then
+    echo "Atencion: la shell $shell no está en /etc/shells" >&2
+   fi
+
+comando+=(-s "$shell")
 
     # Usuario
     if id "$usuario" &>/dev/null; then
@@ -150,7 +159,7 @@ while IFS=':' read -r usuario comentario home creahome shell; do
     fi
 
     if [[ "$errores" == false  ]]; then
-        if "${comando[@]}"; then
+        if "${comando[@]}" &>/dev/null; then
             usuarios_creados=$((usuarios_creados+1))
             # Asignar contraseña si se pasó -c
             if [ -n "$contrasena" ]; then
@@ -168,10 +177,12 @@ while IFS=':' read -r usuario comentario home creahome shell; do
         else
             if [[ "$mostrar_info" == true ]]; then
                 echo "ATENCION: el usuario $usuario no pudo ser creado"
+                echo ""
             fi
         fi
     else
         echo "ATENCION: el usuario $usuario no pudo ser creado"
+        echo ""
     fi
 
 done < "$archivo"
