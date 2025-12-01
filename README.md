@@ -259,7 +259,7 @@ Tambien se puede modificar ~/.aws/credentials y pegar los accesos ahi.
 
 ### 4. Ejecutar
 ```
-python ejercicio-2.py
+python /ObligatorioDevOps2025/ejercicio-2/despliegue-app/ejercicio-2.py
 ```
 ---
 ## Uso de Tags
