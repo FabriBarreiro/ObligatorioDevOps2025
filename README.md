@@ -3,6 +3,7 @@
 # Ejercicio 1
 
 Requisitos de ejecución
+El script debe tener permisos de ejecución
 
 El script debe ejecutarse como superusuario (root).
 
@@ -21,6 +22,8 @@ Cuenta con dos parámetros:
 -i muestra la información de ejecución
 
 -c Asigna la contraseña que se le pase a continuación
+
+Ruta absoluta del script: /ObligatorioDevOps2025/ejercicio-1/ejercicio1.sh
 
 Caso de prueba del obligatorio:
 
