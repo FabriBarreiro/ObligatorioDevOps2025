@@ -17,6 +17,16 @@ El script crea infraestructura en AWS de forma completamente automática: EC2, R
 
 ## Estructura del Repositorio
 
+## Uso de Branches en el Repositorio
+
+El flujo de trabajo de este repositorio se apoya en el uso de ramas (branches) para organizar el desarrollo y mantener la calidad del código:
+
+- La rama `aws-testing` se utiliza para el desarrollo y pruebas de los cambios correspondientes al **Ejercicio 2**.
+- La rama `bash-testing` se utiliza para el desarrollo y pruebas de los cambios correspondientes al **Ejercicio 1**.
+- La rama `main` contiene únicamente el código listo para producción y la versión final validada de ambos ejercicios.
+
+Los cambios realizados en las ramas de desarrollo (`aws-testing` y `bash-testing`) se integran a `main` mediante *pull requests*, asegurando una revisión previa y facilitando el control de versiones y la colaboración.
+
 ```
 ObligatorioDevOps2025/
 │
