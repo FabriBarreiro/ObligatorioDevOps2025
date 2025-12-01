@@ -244,7 +244,7 @@ source venv/bin/activate
 
 ### 2. Instalar dependencias
 ```
-pip install -r requirements.txt
+pip install -r ObligatorioDevOps2025/ejercicio-2/despliegue-app/requirements.txt
 ```
 
 ### 3. Exportar credenciales AWS
@@ -308,7 +308,7 @@ Ejemplos de prompts utilizados:
 - "ayudame a corregir este error de boto3".
 - "cómo hacer waiters para EC2 y RDS".
 - "cómo hacer el script ejecutable en cualquier entorno luego de clonar el repo"
-- "como obtener el ID de la VPC default"
+- "cómo obtener el ID de la VPC default"
+- "cómo esperar a que el Send Command termine para terminar el script"
 
 El resto del código fue construido con lo aprendido en el curso, el material de clase y con la documentacion oficial de Boto3.
-
