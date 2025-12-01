@@ -127,8 +127,16 @@ También se verifican otros controles solicitados en la letra del obligatorio:
 Este ejercicio demuestra:
 - Manejo de errores
 - Validación completa de entradas
-- Uso apropiado de funciones del sistema Linux
 - Automatización del alta de usuarios
+
+
+Se utilizó Inteligencia Artificial (ChatGPT) para revisiones periódicas, para implementar mejoras al script y corregir errores.
+Las mejoras que se implementaron con ChatGPT fueron:
+
+- Uso de array para la construcción del comando, ya que antes se utilizaba eval lo que permitía inyección de código
+- Corrección de la validación de archivos de solo lectura, ya que antes se utilizaba la opción "-r archivo" pero al ejecutarse como sudo el script, esta validación no funciona, por el hecho de que al ejecutarse como sudo se ignoran los permisos reales. De esta manera se validan los permisos reales del archivo.
+
+El resto del código fue construido con lo aprendido en el curso y el material de clase.
 
 # Ejercicio 2
 
