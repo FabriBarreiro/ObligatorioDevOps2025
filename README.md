@@ -75,7 +75,7 @@ El script:
 
 Ruta absoluta del script:
 ```
-/ObligatorioDevOps2025/ejercicio-1/ejercicio1.sh
+/ObligatorioDevOps2025/ejercicio-1/ejercicio-1.sh
 ```
 
 ---
