@@ -129,7 +129,7 @@ Este ejercicio demuestra:
 - Validación completa de entradas
 - Automatización del alta de usuarios
 
-
+## Uso de IA en el ejercicio 1
 Se utilizó Inteligencia Artificial (ChatGPT) para revisiones periódicas, para implementar mejoras al script y corregir errores.
 Las mejoras que se implementaron con ChatGPT fueron:
 
@@ -292,3 +292,23 @@ Este ejercicio implementa un despliegue *end-to-end* profesional utilizando:
 A continuación se muestra una captura real del sistema web funcionando sobre la infraestructura aprovisionada:
 
 ![Aplicación Web](ejercicio-2/imagenes/aplicacionweb.png)
+
+## Conclusión
+El ejercicio 2 demuestra un flujo completo de aprovisionamiento automatizado en AWS utilizando Python y Boto3.
+El script implementa buenas prácticas de IaC, aislamiento mediante security groups, generación de credenciales seguras, despliegue de aplicación vía SSM y una arquitectura funcional lista para operar.
+La solución cumple con los requisitos del obligatorio y refleja un proceso profesional de automatización cloud.
+
+## Uso de IA en el ejercicio 2
+Durante el desarrollo del ejercicio 2 se utilizó Inteligencia Artificial (ChatGPT) como apoyo para:
+- Mejorar la estructura del script, haciéndolo más legible.
+- Generar lógica para subir archivos vía SSM y convertirlos a base64.
+- Validar buenas prácticas de nombrado, uso de tags y seguridad.
+
+Ejemplos de prompts utilizados:
+- "ayudame a corregir este error de boto3".
+- "cómo hacer waiters para EC2 y RDS".
+- "cómo hacer el script ejecutable en cualquier entorno luego de clonar el repo"
+- "como obtener el ID de la VPC default"
+
+El resto del código fue construido con lo aprendido en el curso, el material de clase y con la documentacion oficial de Boto3.
+
