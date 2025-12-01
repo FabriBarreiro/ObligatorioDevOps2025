@@ -6,7 +6,7 @@ Requisitos de ejecución
 
 El script debe ejecutarse como superusuario (root).
 
-Debe existir el archivo con los usuarios.
+Debe existir el archivo con los usuarios e indicarse en el comando.
 
 El archivo debe ser:
 
