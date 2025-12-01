@@ -1,6 +1,6 @@
 # ObligatorioDevOps2025
 
-#Ejercicio 1
+# Ejercicio 1
 
 Requisitos de ejecución
 
@@ -26,7 +26,7 @@ Caso de prueba del obligatorio:
 
 Ejemplo de uso con caso de prueba del obligatorio:
 
-![Caso de uso obligatorio](ejercicio-1/imagenes/pruebascript.png)
+![Caso de uso obligatorio](ejercicio-1/imagenes/pruebaScript.png)
 
 En este caso de uso podemos ver como se valida los siguientes puntos:
 -El intento de crear un usuario existente
@@ -35,12 +35,12 @@ En este caso de uso podemos ver como se valida los siguientes puntos:
 -Una línea vacía
 -Un usuario con los campos por defecto
 
-![Caso de uso 1](ejercicio-1/imagenes/casodeuso1.png)
+![Caso de uso 1](ejercicio-1/Imagenes/casosdeuso1.png)
 
 En este otro verificamos las demas verificaciones mencionadas en la letra
 (como por ejemplo archivo inexistente, que no sea un archivo regular o no se tengan permisos de lectura sobre él, parámetros incorrectos -como no recibirse la contraseña al usarse el modificador -c o usarse modificadores inválidos-, cantidad de parámetros incorrectos)
 
-![Caso de uso 2](ejercicio-1/imagenes/casodeuso2.png)
+![Caso de uso 2](ejercicio-1/Imagenes/casosdeuso2.png)
 
 
 
