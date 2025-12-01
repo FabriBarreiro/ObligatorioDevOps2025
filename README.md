@@ -21,12 +21,12 @@ Cuenta con dos parámetros: -i muestra la información de ejecución
                            -c Asigna la contraseña que se le pase a continuación
 
 Caso de prueba del obligatorio:
-![Caso de uso](ejercicio-1/imagenes/ejemplo_obligatorio.png)
+![Caso de uso](ejercicio-1/Imagenes/ejemplo_obligatorio.png)
 
 
 Ejemplo de uso con caso de prueba del obligatorio:
 
-![Caso de uso obligatorio](ejercicio-1/imagenes/pruebaScript.png)
+![Caso de uso obligatorio](ejercicio-1/Imagenes/pruebaScript.png)
 
 En este caso de uso podemos ver como se valida los siguientes puntos:
 -El intento de crear un usuario existente
