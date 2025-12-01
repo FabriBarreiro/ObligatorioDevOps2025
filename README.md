@@ -1,5 +1,50 @@
 # ObligatorioDevOps2025
 
+#Ejercicio 1
+
+Requisitos de ejecución
+
+El script debe ejecutarse como superusuario (root).
+
+Debe existir el archivo con los usuarios.
+
+El archivo debe ser:
+
+regular (-f)
+
+legible (-r)
+
+El script crea usuarios en Linux con las características definidas en el archivo que se pase como parámetro 
+Además controla errores, válida los datos de cada línea, aplica valores por defecto y permite definir una contraseña común para los usuarios creados.
+
+Cuenta con dos parámetros: -i muestra la información de ejecución
+                           -c Asigna la contraseña que se le pase a continuación
+
+Caso de prueba del obligatorio:
+![Caso de uso](ejercicio-1/imagenes/ejemplo_obligatorio.png)
+
+
+Ejemplo de uso con caso de prueba del obligatorio:
+
+![Caso de uso obligatorio](ejercicio-1/imagenes/pruebascript.png)
+
+En este caso de uso podemos ver como se valida los siguientes puntos:
+-El intento de crear un usuario existente
+-Crear usuario con un home que ya existe y la opción de crear directorio si
+-Cantidad de campos incorrecta
+-Una línea vacía
+-Un usuario con los campos por defecto
+
+![Caso de uso 1](ejercicio-1/imagenes/casodeuso1.png)
+
+En este otro verificamos las demas verificaciones mencionadas en la letra
+(como por ejemplo archivo inexistente, que no sea un archivo regular o no se tengan permisos de lectura sobre él, parámetros incorrectos -como no recibirse la contraseña al usarse el modificador -c o usarse modificadores inválidos-, cantidad de parámetros incorrectos)
+
+![Caso de uso 2](ejercicio-1/imagenes/casodeuso2.png)
+
+
+
+
 # Ejercicio 2
 
 Este ejercicio consiste en un script de aprovisionamiento de infraestructura en AWS, hecho con python usando el SDK de AWS "Boto3". El objetivo es desplegar automáticamente una arquitectura completa utilizando **Python**, **Boto3**, **Amazon EC2**, **Amazon RDS**, **AWS Systems Session Manager** y **Security Groups**.
