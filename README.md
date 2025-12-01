@@ -17,8 +17,10 @@ legible (-r)
 El script crea usuarios en Linux con las características definidas en el archivo que se pase como parámetro 
 Además controla errores, válida los datos de cada línea, aplica valores por defecto y permite definir una contraseña común para los usuarios creados.
 
-Cuenta con dos parámetros: -i muestra la información de ejecución
-                           -c Asigna la contraseña que se le pase a continuación
+Cuenta con dos parámetros:
+-i muestra la información de ejecución
+
+-c Asigna la contraseña que se le pase a continuación
 
 Caso de prueba del obligatorio:
 
@@ -31,10 +33,15 @@ Ejemplo de uso con caso de prueba del obligatorio:
 
 En este caso de uso podemos ver como se valida los siguientes puntos:
 -El intento de crear un usuario existente
+
 -Crear usuario con un home que ya existe y la opción de crear directorio si
+
 -Cantidad de campos incorrecta
+
 -Una línea vacía
+
 -Un usuario con los campos por defecto
+
 
 ![Caso de uso 1](ejercicio-1/Imagenes/casosdeuso1.png)
 
