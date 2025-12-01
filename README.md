@@ -21,6 +21,7 @@ Cuenta con dos parámetros: -i muestra la información de ejecución
                            -c Asigna la contraseña que se le pase a continuación
 
 Caso de prueba del obligatorio:
+
 ![Caso de uso](ejercicio-1/Imagenes/ejemplo_obligatorio.png)
 
 
