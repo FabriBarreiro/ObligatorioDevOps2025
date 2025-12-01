@@ -1,60 +1,95 @@
-# ObligatorioDevOps2025
-
 # Ejercicio 1
 
-Requisitos de ejecución
-El script debe tener permisos de ejecución
+Este ejercicio consiste en un **script bash automatizado** para la creación de usuarios en Linux.
+El objetivo es validar datos, manejar errores y asegurar la creación correcta de cuentas de usuario siguiendo las reglas definidas en la letra del obligatorio.
 
-El script debe ejecutarse como superusuario (root).
+---
 
-Debe existir el archivo con los usuarios e indicarse en el comando.
+## 📦 Requerimientos de ejecución
+Para ejecutar el script correctamente se deben cumplir los siguientes requisitos:
 
-El archivo debe ser:
+- El script debe tener permisos de ejecución.
+- Debe ejecutarse como **superusuario (root)**.
+- Debe existir el archivo con los usuarios y debe especificarse como parámetro.
+- El archivo de entrada debe ser:
+  - Un archivo **regular** (`-f`)
+  - **Legible** (`-r`)
 
-regular (-f)
+---
 
-legible (-r)
+## 📝 Descripción del script
 
-El script crea usuarios en Linux con las características definidas en el archivo que se pase como parámetro 
-Además controla errores, válida los datos de cada línea, aplica valores por defecto y permite definir una contraseña común para los usuarios creados.
+El script permite crear usuarios en Linux tomando como entrada un archivo donde cada línea representa un usuario y sus atributos.
 
-Cuenta con dos parámetros:
--i muestra la información de ejecución
+El script:
+- Valida la estructura de cada línea.
+- Aplica valores por defecto cuando faltan datos.
+- Permite definir una contraseña común mediante el parámetro `-c`.
+- Muestra información del procesamiento mediante `-i`.
+- Controla errores y situaciones especiales:
+  - Usuario ya existente
+  - HOME ya existente
+  - Cantidad incorrecta de campos
+  - Líneas vacías
+  - Archivo inexistente o sin permisos
+  - Parámetros inválidos o insuficientes
 
--c Asigna la contraseña que se le pase a continuación
+Ruta absoluta del script:
+```
+/ObligatorioDevOps2025/ejercicio-1/ejercicio1.sh
+```
 
-Ruta absoluta del script: /ObligatorioDevOps2025/ejercicio-1/ejercicio1.sh
+---
 
-Caso de prueba del obligatorio:
+## ▶️ Parámetros disponibles
+
+| Parámetro | Descripción |
+|----------|-------------|
+| `-i` | Muestra información detallada durante la ejecución |
+| `-c <password>` | Asigna una contraseña común a todos los usuarios creados |
+
+---
+
+## 📄 Caso de prueba del obligatorio
+
+Ejemplo de archivo de entrada y validaciones realizadas por el script:
 
 ![Caso de uso](ejercicio-1/Imagenes/ejemplo_obligatorio.png)
 
+---
 
-Ejemplo de uso con caso de prueba del obligatorio:
+## 🧪 Ejemplo de ejecución real
 
 ![Caso de uso obligatorio](ejercicio-1/Imagenes/pruebaScript.png)
 
-En este caso de uso podemos ver como se valida los siguientes puntos:
--El intento de crear un usuario existente
+---
 
--Crear usuario con un home que ya existe y la opción de crear directorio si
+En los casos de prueba se validan situaciones como:
+- Intento de crear un usuario existente
+- Crear usuario con HOME ya existente (y opción de crearlo)
+- Campos incompletos
+- Líneas vacías
+- Archivo inválido o sin permisos
+- Parámetros incorrectos
+- Uso de valores por defecto
 
--Cantidad de campos incorrecta
+![Casos de uso 1](ejercicio-1/Imagenes/casosdeuso1.png)
 
--Una línea vacía
+---
 
--Un usuario con los campos por defecto
+También se verifican otros controles solicitados en la letra del obligatorio:
 
+![Casos de uso 2](ejercicio-1/Imagenes/casosdeuso2.png)
 
-![Caso de uso 1](ejercicio-1/Imagenes/casosdeuso1.png)
+---
 
-En este otro verificamos las demas verificaciones mencionadas en la letra
-(como por ejemplo archivo inexistente, que no sea un archivo regular o no se tengan permisos de lectura sobre él, parámetros incorrectos -como no recibirse la contraseña al usarse el modificador -c o usarse modificadores inválidos-, cantidad de parámetros incorrectos)
+## ✔️ Conclusión
 
-![Caso de uso 2](ejercicio-1/Imagenes/casosdeuso2.png)
-
-
-
+Este ejercicio demuestra:
+- Manejo de errores
+- Validación completa de entradas
+- Uso apropiado de funciones del sistema Linux
+- Automatización del alta de usuarios
 
 # Ejercicio 2
 
