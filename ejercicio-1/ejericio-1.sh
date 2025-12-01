@@ -58,8 +58,14 @@ if [[ ! -f "$archivo" ]]; then
     exit 5
 fi
 
-if [[ ! -r "$archivo" ]]; then
-    echo "ERROR: Error de lectura sobre $archivo" >&2
+permisos=$(stat -c "%A" "$archivo")
+
+owner_read=${permisos:1:1}
+group_read=${permisos:4:1}
+others_read=${permisos:7:1}
+
+if [[ "$owner_read" != "r" && "$group_read" != "r" && "$others_read" != "r" ]]; then
+    echo "ERROR: el archivo no tiene permiso de lectura"
     exit 6
 fi
 
