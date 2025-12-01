@@ -1,3 +1,42 @@
+# Descripción General del Repositorio y Objetivo del Obligatorio
+
+Este repositorio contiene la solución completa para el **Obligatorio de DevOps**, basado en un caso realista propuesto por *Banco Riendo*, una empresa que busca acelerar su adopción hacia un modelo de nube híbrida.
+El equipo de DevOps del banco delega dos tareas principales:
+
+### Ejercicio 1 — Automatización en Bash
+Crear un **script Bash** capaz de procesar un archivo con usuarios y sus atributos, validando datos, manejando errores y creando cuentas según los parámetros definidos.
+Debe permitir:
+- Informar el resultado de la creación de cada usuario.
+- Crear todos los usuarios con una contraseña común suministrada por parámetro.
+
+### Ejercicio 2 — Despliegue en AWS con Python/Boto3
+Desarrollar un **script en Python** que automatice el despliegue de una aplicación web de Recursos Humanos que almacena información sensible como nombres, emails y salarios.
+El script crea infraestructura en AWS de forma completamente automática: EC2, RDS, grupos de seguridad, subida de archivos de la app y configuración final.
+
+---
+
+## Estructura del Repositorio
+
+```
+ObligatorioDevOps2025/
+│
+├── ejercicio-1/
+│   ├── Imagenes/
+│   └── ejercicio-1.sh
+│
+├── ejercicio-2/
+│   ├── app/
+│   ├── despliegue-app/
+│   │   ├── ejercicio-2.py
+│   │   └── requirements.txt
+│   |── imagenes/
+│
+├── LICENSE
+└── README.md
+```
+
+---
+
 # Ejercicio 1
 
 Este ejercicio consiste en un **script bash automatizado** para la creación de usuarios en Linux.
