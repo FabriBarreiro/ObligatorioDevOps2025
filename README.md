@@ -244,7 +244,7 @@ source venv/bin/activate
 
 ### 2. Instalar dependencias
 ```
-pip install -r ObligatorioDevOps2025/ejercicio-2/despliegue-app/requirements.txt
+pip install -r /ObligatorioDevOps2025/ejercicio-2/despliegue-app/requirements.txt
 ```
 
 ### 3. Exportar credenciales AWS
